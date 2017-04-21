@@ -1,0 +1,39 @@
+name: nginx
+version: 1
+summary: small, powerful, scalable web/proxy server
+description: Nginx ("engine X") is a high-performance web and reverse proxy server created by Igor Sysoev. It can be used both as a standalone web server and as a proxy to reduce the load on back-end HTTP or mail servers.
+confinement: strict
+
+apps:
+  nginx:
+    plugs: [network-bind]
+    command: bin/nginx.sh
+    
+parts:
+  main:
+    plugin: autotools
+    source: https://github.com/nginx/nginx.git
+    source-type: git
+    # Need the prepare step because configure script resides in an unintuitive
+    # location.
+    prepare: |
+        cp auto/configure .
+    configflags: 
+        - --without-http_rewrite_module
+        - --without-http_gzip_module
+        - --error-log-path=logs/error.log
+        - --http-log-path=logs/nginx.log
+    build-packages:
+        - libc6
+        - libgd3
+        - libgeoip1
+        - libpcre3
+        - libssl1.0.0
+        - libxml2
+        - libxslt1.1
+        - zlib1g
+
+  service:
+    plugin: copy
+    files:
+      nginx.sh: bin/nginx.sh
