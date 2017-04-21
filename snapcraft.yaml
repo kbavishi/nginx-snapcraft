@@ -1,5 +1,5 @@
 name: nginx
-version: 1
+version: 0.1
 summary: small, powerful, scalable web/proxy server
 description: Nginx ("engine X") is a high-performance web and reverse proxy server created by Igor Sysoev. It can be used both as a standalone web server and as a proxy to reduce the load on back-end HTTP or mail servers.
 confinement: strict
